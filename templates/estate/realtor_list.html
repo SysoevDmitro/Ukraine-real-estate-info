@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+{#  <h1>#}
+{#    Car list#}
+{#    <a href="{% url 'estate:realtor-create' %}" class="btn btn-primary link-to-page">#}
+{#      Create#}
+{#    </a>#}
+{#  </h1>#}
+
+  {% if house_list %}
+    <ul>
+      {% for house in house_list %}
+        <li>
+          <a href="{% url "estate:realtor-detail" pk=realtor.id %} ">{{ realtor.id }}</a>
+
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no realtors in Data Base</p>
+  {% endif %}
+{% endblock %}

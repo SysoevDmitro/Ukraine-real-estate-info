@@ -6,3 +6,30 @@ body {
     float: right;
     margin: 0 2px 0 2px;
 }
+.topnav {
+    background-color: #ffffff; /* Цвет фона верхней панели */
+}
+
+.topnav ul {
+    list-style-type: none; /* Убираем маркеры списка */
+    margin: 0;
+    padding: 0;
+}
+
+.topnav ul li {
+    float: left; /* Располагаем ссылки горизонтально */
+}
+
+.topnav ul li a {
+    display: block;
+    color: #000000; /* Цвет текста ссылок */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none; /* Убираем подчеркивание ссылок */
+}
+
+/* Hover-эффект для ссылок */
+.topnav ul li a:hover {
+    background-color: #ddd; /* Цвет фона при hover */
+    color: black; /* Цвет текста при hover */
+}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ house.city }}
+    <a href="{% url 'estate:house-delete' pk=house.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'estate:house-update' pk=house.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+{% endblock %}
