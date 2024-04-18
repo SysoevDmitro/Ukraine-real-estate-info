@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Real Estate Home</h1>
+    <p>Welcome to Best Real Estate Data Base!</p>
+    <h2>The service has the following record counts:</h2>
+    <ul>
+        <li><strong>Houses:</strong> {{ num_houses }}</li>
+        <li><strong>Realtors:</strong> {{ num_realtors }}</li>
+    </ul>
+
+{#    <p>You have visited this page#}
+{#        {{ num_visits }} time{{ num_visits|pluralize }}.#}
+{#    </p>#}
+
+{% endblock %}
