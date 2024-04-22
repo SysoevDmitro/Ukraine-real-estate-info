@@ -6,7 +6,7 @@ from django.urls import reverse
 class Owner(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
     phone_number = models.CharField(max_length=255)
 
     def __str__(self):
@@ -15,8 +15,8 @@ class Owner(models.Model):
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
     number = models.IntegerField()
+    city = models.CharField(max_length=255)
     postal_code = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Address(models.Model):
 
 
 class Realtor(AbstractUser):
-    rating = models.DecimalField(max_digits=1, decimal_places=1, blank=True, null=True)
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
 
     class Meta:
         verbose_name = "realtor"
@@ -38,14 +38,17 @@ class Realtor(AbstractUser):
 
 
 class House(models.Model):
+    CHOICES = [
+        ("House", "House"),
+        ("Apartment", "Apartment"),
+        ("Cottage", "Cottage")
+    ]
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, unique=True)
-    price = models.IntegerField
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    price = models.IntegerField(blank=False, null=False)
     area = models.IntegerField()
     num_of_bedrooms = models.IntegerField(blank=True, null=True)
     num_of_floors = models.IntegerField(blank=True, null=True)
-    type = models.CharField(max_length=255, blank=True, null=True)
-    condition = models.CharField(max_length=255, blank=True, null=True)
     realtor = models.ManyToManyField(Realtor, related_name="house")
 
     def __str__(self):

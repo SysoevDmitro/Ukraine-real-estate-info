@@ -8,9 +8,9 @@
 {#    </a>#}
 {#  </h1>#}
 
-  {% if house_list %}
+  {% if realtor_list %}
     <ul>
-      {% for house in house_list %}
+      {% for realtor in realtor_list %}
         <li>
           <a href="{% url "estate:realtor-detail" pk=realtor.id %} ">{{ realtor.id }}</a>
 

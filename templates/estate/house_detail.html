@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
   <h1>
     {{ house.city }}
@@ -7,8 +7,12 @@
       Delete
     </a>
 
-    <a href="{% url 'estate:house-update' pk=house.id %}" class="btn btn-secondary link-to-page">
+    <a href="{% url 'estate:house-update' pk=house.id %}" class="btn btn-dark link-to-page" style="background-color: black">
       Update
     </a>
   </h1>
+  <div class="card" style="width: 24rem;" xmlns="http://www.w3.org/1999/html">
+  <img src="{% static 'img/' %}{{ house.id }}.jpg" class="card-img-top" alt="...">
+  </div>
+  <p>Owner: {{ house.owner }}</p>
 {% endblock %}
