@@ -1,23 +1,43 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-{#  <h1>#}
-{#    Car list#}
-{#    <a href="{% url 'estate:realtor-create' %}" class="btn btn-primary link-to-page">#}
-{#      Create#}
-{#    </a>#}
-{#  </h1>#}
+  <h1>
+    Realtors
+    <a href="{% url 'estate:realtor-create' %}" class="btn btn-primary link-to-page" style="color: #fff;
+    background-color: black;
+    border-color: black; border-radius: 7px; padding-inline: 10px">
+      Create
+    </a>
+  </h1>
 
   {% if realtor_list %}
-    <ul>
+<div class="wrapper" style="padding-bottom: 20px">
+<div class="row">
       {% for realtor in realtor_list %}
-        <li>
-          <a href="{% url "estate:realtor-detail" pk=realtor.id %} ">{{ realtor.id }}</a>
 
-        </li>
+
+<div class="card" style="width: 28rem; padding-top: 10px; padding-left: 5px" xmlns="http://www.w3.org/1999/html">
+
+  <div class="card-body">
+<p style="font-size: 24px"> {{ realtor.first_name }} {{ realtor.last_name }}</p>
+  <p style="font-size: 24px">{{ realtor.rating }} ⭐</p>
+    <p style="font-size: 24px">{{ realtor.house.all.count }} houses at sale</p>
+    <p>
+    <a href="{% url "estate:realtor-detail" pk=realtor.id %} " class="btn btn-dark" style="color: #fff;
+    background-color: black;
+    border-color: black; border-radius: 7px; padding: 10px">More details</a></p>
+  </div>
+</div>
+
+
+
+
+
       {% endfor %}
-    </ul>
+</div>
+    </div>
   {% else %}
     <p>There are no realtors in Data Base</p>
   {% endif %}
+
 {% endblock %}

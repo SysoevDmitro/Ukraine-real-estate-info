@@ -1,27 +1,37 @@
-<div class="sidebar-nav list-group">
-  {% if user.is_authenticated %}
-<span class="btn btn-dark" style="color: #fff;
-    background-color: black;
-    border-color: white; border-radius: 7px; padding: 10px">User: <a href="{{ user.get_absolute_url }}">{{ user.get_username }}</a></span>
-<a href="{% url 'logout'%}?next={{request.path}}" class="btn btn-dark" style="color: #fff;
-    background-color: black;
-    border-color: white; border-radius: 7px; padding: 10px">Logout</a>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href=""><img src="{% static 'ico/house.png' %}" style="width: 70px"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url "estate:index" %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "estate:house-list" %}">Catalog</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="{% url "estate:realtor-list" %}">Realtors</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto mb-0 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><img   src="{% static "ico/user.png" %}" style="width: 40px"></a>
+          <ul class="dropdown-menu" aria-labelledby="navbarSupportedContent">
+            {% if user.is_authenticated %}
+    <li class="dropdown-item">{{ user.get_username }}</li>
+    <li><a class="dropdown-item" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
   {% else %}
-<a href="{% url 'login'%}?next={{request.path}}" class="btn btn-dark" style="color: #fff;
-    background-color: black;
-    border-color: white; border-radius: 7px; padding: 10px">Login</a>
+    <li><a class="dropdown-item" href="{% url 'login'%}?next={{request.path}}">Login</a></li>
   {% endif %}
-<nav class="">
-<div class="list-group">
-  <a href="{% url 'estate:index' %}" class="btn btn-dark" style="color: #fff;
-    background-color: black;
-    border-color: white; border-radius: 7px; padding: 10px">Home</a>
-<a href="{% url 'estate:house-list' %} "class="btn btn-dark" style="color: #fff;
-    background-color: black;
-    border-color: white; border-radius: 7px; padding: 10px">All Houses</a>
-<a href="{% url 'estate:realtor-list' %}" class="btn btn-dark" style="color: #fff;
-    background-color: black;
-    border-color: white; border-radius: 7px; padding: 10px;">All Realtors</a>
-</div>
-</nav>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
   </div>
+</nav>

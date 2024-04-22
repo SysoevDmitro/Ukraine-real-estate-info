@@ -52,6 +52,7 @@ class RealtorUpdateView(LoginRequiredMixin, generic.UpdateView):
 class RealtorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Realtor
     success_url = reverse_lazy("estate:realtor-list")
+    queryset = Realtor.objects.all().prefetch_related("house")
 
 
 class HouseListView(generic.ListView):
@@ -72,6 +73,15 @@ class HouseListView(generic.ListView):
 class HouseDetailView(generic.DetailView):
     model = House
 
+    def get_queryset(self):
+        houses = House.objects.all()
+        for house in houses:
+            if house.area != 0:
+                house.price_per_area = round(house.price / house.area)
+            else:
+                house.price_per_area = None
+        return houses
+
 
 class HouseCreateView(LoginRequiredMixin, generic.CreateView):
     model = House
@@ -88,3 +98,15 @@ class HouseUpdateView(LoginRequiredMixin, generic.UpdateView):
 class HouseDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = House
     success_url = reverse_lazy("estate:house-list")
+
+
+@login_required
+def toggle_assign_to_house(request, pk):
+    realtor = Realtor.objects.get(id=request.user.id)
+    if (
+        House.objects.get(id=pk) in realtor.house.all()
+    ):
+        realtor.house.remove(pk)
+    else:
+        realtor.house.add(pk)
+    return HttpResponseRedirect(reverse_lazy("estate:house-detail", args=[pk]))

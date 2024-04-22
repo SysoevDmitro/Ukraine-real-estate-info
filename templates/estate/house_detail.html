@@ -1,9 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-  <h1>
-    {{ house.city }}
-    <a href="{% url 'estate:house-delete' pk=house.id %}" class="btn btn-danger link-to-page">
+
+  <div class="container-fluid" >
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+
+  </div>
+  <div class="carousel-inner" style="height: 600px">
+    <div class="carousel-item active carousel-img" >
+      <img src="{% static "interior/1.jpg" %}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static "interior/2.jpg" %}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static "interior/3.jpg" %}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+  </div>
+   <h1>
+
+     {% load humanize %}
+     <p style="padding-top: 15px">{{ house.price|floatformat:0|intcomma }}$</p>
+
+     <p style="font-size: 22px"><img src="{% static "ico/bed.png" %}" style="height: 20px;
+    margin-right: 10px;
+    width: 20px;">{{ house.num_of_bedrooms }} rooms</p>
+    <span class="card-text" style="font-size: 22px"><img src="{% static "ico/area.png" %}" style="height: 25px;
+    width: 25px;"> {{ house.area }} м²</span>
+    <p style="font-size: 22px; padding-top: 10px">
+      <img src="{% static "ico/floors.png" %}" style="height: 25px;
+    width: 20px;">{{ house.num_of_floors }} storey house
+    </p>
+     <p style="padding-top: 10px">Description:</p>
+     <p style="font-size: 14px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, purus quis ultricies finibus, velit elit molestie augue, eu ultricies ante lectus eu orci. Pellentesque eget purus auctor, gravida ipsum eu, cursus ligula. Sed lacinia, eros lobortis maximus tristique, neque metus posuere nulla, nec dignissim nisi ligula eget libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec et dui ut quam tempor blandit. Aliquam commodo, ipsum eget facilisis maximus, dolor lacus fermentum mauris, nec euismod sem mi sit amet lectus. Vivamus pulvinar placerat suscipit.</p>
+    <p>Location: <span style="font-size: 22px">{{ house.address }}</span></p>
+     <p>Owner: <span style="font-size: 22px">{{ house.owner }}</span>
+     <p>Phone number: <span style="font-size: 22px">+{{ house.owner.phone_number }}</span></p></p>
+
+     <p>Realtors:
+     {% if house in user.house.all %}
+      <a href="{% url 'estate:toggle-house-assign' pk=house.id %}" class="btn btn-danger link-to-page">
+        Delete me from this house
+      </a>
+    {% else %}
+      <a href="{% url 'estate:toggle-house-assign' pk=house.id %}" class="btn btn-success link-to-page">
+        Assign me to this house
+      </a>
+    {% endif %}
+     {% for realtor in house.realtor.all %}
+        <hr>
+        <p style="font-size: 24px"><strong>First name:</strong> {{ realtor.first_name }}</p>
+        <p style="font-size: 24px"><strong>Last Name:</strong> {{ realtor.last_name }}</p>
+       <p style="font-size: 24px"><strong>Rating:</strong> {{ realtor.rating }}⭐</p>
+        <p class="text-muted" style="font-size: 24px"><strong>Id:</strong> {{realtor.id}}</p>
+      <p><a href="{% url "estate:realtor-detail" pk=realtor.id %} " class="btn btn-dark" style="color: #fff;
+    background-color: black;
+    border-color: black; border-radius: 7px; padding: 10px">More details</a></p></p>
+    {% empty %}
+      <p>No realtors!</p>
+    {% endfor %}
+
+
+
+     <a href="{% url 'estate:house-delete' pk=house.id %}" class="btn btn-danger link-to-page">
       Delete
     </a>
 
@@ -11,8 +84,4 @@
       Update
     </a>
   </h1>
-  <div class="card" style="width: 24rem;" xmlns="http://www.w3.org/1999/html">
-  <img src="{% static 'img/' %}{{ house.id }}.jpg" class="card-img-top" alt="...">
-  </div>
-  <p>Owner: {{ house.owner }}</p>
 {% endblock %}

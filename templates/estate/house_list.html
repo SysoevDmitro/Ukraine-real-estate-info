@@ -16,9 +16,9 @@
       {% for house in house_list %}
 
 
-<div class="card" style="width: 24rem; padding-top: 10px; padding-left: 5px" xmlns="http://www.w3.org/1999/html">
+<div class="card" style="width: 28rem; padding-top: 10px; padding-left: 5px" xmlns="http://www.w3.org/1999/html">
 
-  <img src="{% static 'img/' %}{{ house.id }}.jpg" class="card-img-top" >
+  <img src="{% static 'img/' %}{{ house.id }}.jpg" class="card-img-top" style="height: 80%">
 
   <div class="card-body">
     {% load humanize %}
