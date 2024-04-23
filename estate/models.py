@@ -51,6 +51,13 @@ class House(models.Model):
     num_of_floors = models.IntegerField(blank=True, null=True)
     realtor = models.ManyToManyField(Realtor, related_name="house")
 
+    @property
+    def price_per_area(self):
+        if self.area != 0:
+            return round(self.price / self.area)
+        else:
+            return None
+
     def __str__(self):
         return f"{self.price}, {str(self.owner)}"
 

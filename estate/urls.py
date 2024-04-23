@@ -11,7 +11,7 @@ from .views import (
     RealtorCreateView,
     RealtorUpdateView,
     RealtorDeleteView,
-    toggle_assign_to_house
+    AssignToHouseView
 )
 
 urlpatterns = [
@@ -26,11 +26,8 @@ urlpatterns = [
     path("realtors/create/", RealtorCreateView.as_view(), name="realtor-create"),
     path("realtors/<int:pk>/update", RealtorUpdateView.as_view(), name="realtor-update"),
     path("realtors/<int:pk>/delete/", RealtorDeleteView.as_view(), name="realtor-delete"),
-    path(
-        "houses/<int:pk>/toggle-assign/",
-        toggle_assign_to_house,
-        name="toggle-house-assign",
-    ),
+    path("houses/<int:pk>/assign/", AssignToHouseView.as_view(), name="house-assign"),
+    path("houses/<int:pk>/remove/", AssignToHouseView.as_view(), name="house-remove"),
 ]
 
 app_name = "estate"

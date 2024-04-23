@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RealtorCreationForm, RealtorUpdateForm, RealtorUsernameSearchForm, HouseSearchForm
 
@@ -100,15 +101,6 @@ class HouseListView(generic.ListView):
 class HouseDetailView(generic.DetailView):
     model = House
 
-    def get_queryset(self):
-        houses = House.objects.all()
-        for house in houses:
-            if house.area != 0:
-                house.price_per_area = round(house.price / house.area)
-            else:
-                house.price_per_area = None
-        return houses
-
 
 class HouseCreateView(LoginRequiredMixin, generic.CreateView):
     model = House
@@ -127,13 +119,17 @@ class HouseDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("estate:house-list")
 
 
-@login_required
-def toggle_assign_to_house(request, pk):
-    realtor = Realtor.objects.get(id=request.user.id)
-    if (
-        House.objects.get(id=pk) in realtor.house.all()
-    ):
-        realtor.house.remove(pk)
-    else:
-        realtor.house.add(pk)
-    return HttpResponseRedirect(reverse_lazy("estate:house-detail", args=[pk]))
+class AssignToHouseView(LoginRequiredMixin, generic.View):
+    model = House
+
+    def post(self, request, pk) -> HttpResponseRedirect:
+        house = get_object_or_404(House, pk=pk)
+        if request.user in house.realtor.all():
+            house.realtor.remove(request.user)
+        else:
+            house.realtor.add(request.user)
+        return HttpResponseRedirect(
+            reverse(
+                "estate:house-detail", kwargs={"pk": pk}
+            )
+        )

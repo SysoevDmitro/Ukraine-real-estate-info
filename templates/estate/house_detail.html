@@ -52,15 +52,19 @@
      <p>Phone number: <span style="font-size: 22px">+{{ house.owner.phone_number }}</span></p></p>
 
      <p>Realtors:
+     {% if user.is_authenticated %}
      {% if house in user.house.all %}
-      <a href="{% url 'estate:toggle-house-assign' pk=house.id %}" class="btn btn-danger link-to-page">
-        Delete me from this house
-      </a>
+       <form action="{% url 'estate:house-remove' house.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete me from this house</button>
+      </form>
     {% else %}
-      <a href="{% url 'estate:toggle-house-assign' pk=house.id %}" class="btn btn-success link-to-page">
-        Assign me to this house
-      </a>
+      <form action="{% url 'estate:house-assign' house.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Assign me to this house</button>
+      </form>
     {% endif %}
+      {% endif %}
      {% for realtor in house.realtor.all %}
         <hr>
         <p style="font-size: 24px"><strong>First name:</strong> {{ realtor.first_name }}</p>
