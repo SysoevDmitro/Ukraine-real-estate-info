@@ -23,19 +23,6 @@ class Address(models.Model):
         return f"{self.city}, {self.street} {self.number}"
 
 
-class Realtor(AbstractUser):
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
-
-    class Meta:
-        verbose_name = "realtor"
-        verbose_name_plural = "realtors"
-
-    def __str__(self):
-        return f"{self.username} ({self.first_name} {self.last_name})"
-
-    def get_absolute_url(self):
-        return reverse("estate:realtor-detail", kwargs={"pk": self.pk})
-
 
 class House(models.Model):
     CHOICES = [
@@ -61,4 +48,17 @@ class House(models.Model):
     def __str__(self):
         return f"{self.price}, {str(self.owner)}"
 
+
+class Realtor(AbstractUser):
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    house = models.ManyToManyField(House, related_name="realtor")
+    class Meta:
+        verbose_name = "realtor"
+        verbose_name_plural = "realtors"
+
+    def __str__(self):
+        return f"{self.username} ({self.first_name} {self.last_name})"
+
+    def get_absolute_url(self):
+        return reverse("estate:realtor-detail", kwargs={"pk": self.pk})
 
