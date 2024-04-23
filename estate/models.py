@@ -23,20 +23,27 @@ class Address(models.Model):
         return f"{self.city}, {self.street} {self.number}"
 
 
+class Realtor(AbstractUser):
+    rating = models.DecimalField(max_digits=2, decimal_places=1, default=0.0, null=True, blank=True)
+    class Meta:
+        verbose_name = "realtor"
+        verbose_name_plural = "realtors"
+
+    def __str__(self):
+        return f"{self.username} ({self.first_name} {self.last_name})"
+
+    def get_absolute_url(self):
+        return reverse("estate:realtor-detail", kwargs={"pk": self.pk})
+
 
 class House(models.Model):
-    CHOICES = [
-        ("House", "House"),
-        ("Apartment", "Apartment"),
-        ("Cottage", "Cottage")
-    ]
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name="houses", blank=True, null=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name="houses")
     price = models.IntegerField(blank=False, null=False)
     area = models.IntegerField()
     num_of_bedrooms = models.IntegerField(blank=True, null=True)
     num_of_floors = models.IntegerField(blank=True, null=True)
-    realtor = models.ManyToManyField(Realtor, related_name="house")
+    realtor = models.ManyToManyField(Realtor, related_name="houses")
 
     @property
     def price_per_area(self):
@@ -49,16 +56,5 @@ class House(models.Model):
         return f"{self.price}, {str(self.owner)}"
 
 
-class Realtor(AbstractUser):
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
-    house = models.ManyToManyField(House, related_name="realtor")
-    class Meta:
-        verbose_name = "realtor"
-        verbose_name_plural = "realtors"
 
-    def __str__(self):
-        return f"{self.username} ({self.first_name} {self.last_name})"
-
-    def get_absolute_url(self):
-        return reverse("estate:realtor-detail", kwargs={"pk": self.pk})
 
