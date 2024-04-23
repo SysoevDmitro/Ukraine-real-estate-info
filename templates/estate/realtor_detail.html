@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    <p style="font-size: 24px"><span>First name:</span> {{ realtor.first_name }}</p>
+  <p style="font-size: 24px"><span>Last name:</span> {{ realtor.last_name }}</p>
+  <p style="font-size: 24px"><span>Rating: </span>{{ realtor.rating }} ⭐</p>
+    <div class="ml-3">
+    <h4>Houses:</h4>
+
+    {% for house in realtor.house.all %}
+        <hr>
+        <p style="font-size: 24px"><strong>Address:</strong> {{ house.address }}</p>
+        <p style="font-size: 24px"><strong>Price:</strong> {{ house.price }}</p>
+        <p class="text-muted" style="font-size: 24px"><strong>Id:</strong> {{house.id}}</p>
+      <p><a href="{% url "estate:house-detail" pk=house.id %} " class="btn btn-dark" style="color: #fff;
+    background-color: black;
+    border-color: black; border-radius: 7px; padding: 10px">More details</a></p>
+
+    {% empty %}
+      <p>No houses!</p>
+    {% endfor %}
+  </div>
+    <a href="{% url 'estate:realtor-delete' pk=realtor.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'estate:realtor-update' pk=realtor.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+{% endblock %}
