@@ -10,7 +10,6 @@ django-admin-soft-dashboard==1.0.12
 django-crispy-forms==2.1
 django-debug-toolbar==4.3.0
 django-environ==0.8.1
-django-theme-soft-design==1.0.10
 gunicorn==21.2.0
 h11==0.14.0
 packaging==24.0
