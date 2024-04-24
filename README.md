@@ -4,8 +4,8 @@ Ukraine Real Estate Info is a concept project for a real estate agency where use
 ## Site url:
 https://ukraine-real-estate-info.onrender.com
 ### Test user:
-login: user
-password: user12345
+login: admin
+password: admin12345
 
 
 ## Installation
